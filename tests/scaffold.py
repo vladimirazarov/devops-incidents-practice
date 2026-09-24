@@ -30,6 +30,8 @@ class ScaffoldTests(unittest.TestCase):
     if fix.startswith('sed '):
      import shlex
      args=shlex.split(fix.split(' && ')[0]);args[-1]=str(mapped(args[-1]))
+     # A backup suffix is accepted by both GNU sed and macOS BSD sed.
+     args=["-i.bak" if arg=="-i" else arg for arg in args]
      subprocess.run(args,check=True)
     if n==1:self.assertIn('127.0.0.1:9000',mapped('/etc/nginx/nginx.conf').read_text())
     if n==3:self.assertIn('no_proxy=localhost,127.0.0.1,inventory.internal',mapped('/etc/systemd/system/gateway.service').read_text())
