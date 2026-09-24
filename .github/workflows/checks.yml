@@ -18,3 +18,4 @@ jobs:
       - run: python tests/scaffold.py
       - run: python -m compileall -q vm lab tests
       - run: bash -n setup labctl vm/guest-init.sh
+      - run: ./setup --help

@@ -24,7 +24,7 @@ class Portability(unittest.TestCase):
    (directory/'verified.txt').write_text(disk.name+'\nSHA512 '+expected+'\n')
    with patch('urllib.request.urlopen',side_effect=AssertionError('Network must not be used')):
     result,digest=bootstrap.image('x86_64',directory)
-   self.assertEqual(result,disk);self.assertEqual(digest,expected)
+   self.assertEqual(result,disk.resolve());self.assertEqual(digest,expected)
    self.assertEqual(disk.read_bytes(),b'existing backing image')
  def test_corrupted_cache_is_rejected(self):
   with tempfile.TemporaryDirectory() as tmp:
