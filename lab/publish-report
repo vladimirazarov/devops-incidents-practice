@@ -1,0 +1,19 @@
+#!/usr/bin/python3
+import os, pathlib, secrets, sys
+if len(sys.argv)!=2:
+ sys.exit('Usage: publish-report "report text"')
+settings={}
+for line in pathlib.Path('/etc/default/report-publisher').read_text().splitlines():
+ if line.strip() and not line.lstrip().startswith('#'):
+  key,value=line.split('=',1);settings[key.strip()]=value.strip()
+os.umask(int(settings['CREATE_MASK'],8))
+dest=pathlib.Path('/srv/reports/current.txt')
+tmp=dest.parent/('.incoming-'+secrets.token_hex(8))
+try:
+ fd=os.open(tmp,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o666)
+ with os.fdopen(fd,'w') as f:
+  f.write(sys.argv[1]+'\n');f.flush();os.fsync(f.fileno())
+ os.replace(tmp,dest)
+ print('Report publication completed.')
+finally:
+ if tmp.exists():tmp.unlink()

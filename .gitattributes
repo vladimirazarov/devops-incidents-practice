@@ -1,0 +1,8 @@
+* text=auto
+*.py text eol=lf
+*.sh text eol=lf
+labctl text eol=lf
+setup text eol=lf
+lab/entrypoint text eol=lf
+lab/export-report text eol=lf
+lab/publish-report text eol=lf

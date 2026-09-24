@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+umask 027
+/usr/bin/python3 - <<'PYTHON'
+import json, os, pathlib, tempfile, time
+source=pathlib.Path('/srv/orders/current.json')
+orders=json.loads(source.read_text())
+result={'batch':orders['batch'],'total':sum(orders['amounts']),'generated_at':time.time()}
+dest=pathlib.Path('/srv/exports/current.json')
+with tempfile.NamedTemporaryFile(mode='w',dir=dest.parent,delete=False) as f:
+ json.dump(result,f);tmp=f.name
+os.replace(tmp,dest)
+PYTHON

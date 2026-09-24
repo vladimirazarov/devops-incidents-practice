@@ -1,0 +1,12 @@
+#!/bin/bash
+set -euo pipefail
+# Remount only the namespace-local cgroup v2 tree; never mount the host tree.
+if [[ "$(cat /proc/1/cgroup)" != '0::/' ]]; then
+ echo 'This lab requires a private cgroup v2 namespace.' >&2
+ exit 1
+fi
+mount -o remount,rw,nosuid,nodev,noexec /sys/fs/cgroup
+# Give the journal a distinct boot identity on each container boot.
+cat /proc/sys/kernel/random/uuid > /run/lab-boot-id
+mount --bind /run/lab-boot-id /proc/sys/kernel/random/boot_id
+exec /sbin/init

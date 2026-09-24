@@ -1,0 +1,7 @@
+#!/bin/bash
+set -euo pipefail
+mkdir -p /run/sshd /home/trainee/.ssh
+chmod 700 /home/trainee/.ssh
+ssh-keygen -A >/dev/null
+install -o trainee -g trainee -m 600 /etc/lab/authorized_key.pub /home/trainee/.ssh/authorized_keys
+chown trainee:trainee /home/trainee/.ssh

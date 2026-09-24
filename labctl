@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+# The Debian guests do not ship Ghostty's terminfo entry.
+if [[ ${TERM:-} == xterm-ghostty ]]; then
+ export TERM=xterm-256color
+fi
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
+exec python3 vm/labctl.py "$@"

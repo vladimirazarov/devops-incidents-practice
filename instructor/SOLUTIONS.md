@@ -1,0 +1,11 @@
+# Spoilers — open only after an attempt
+
+These reference fixes are used by the integration tests. Alternative fixes are valid when they meet the contract.
+
+1. **Proxy configuration drift.** nginx targets 9001 while the backend listens on 9000. Compare `curl`, `ss -lntp`, `nginx -T` and nginx’s error log. Correct the upstream, validate and reload. Production follow-up: validate proxy/backend contracts in deployment smoke tests.
+2. **Revision 2: new files lose reader access.** The directory already has correct group traversal and setgid inheritance. The reporter-owned publisher uses CREATE_MASK=0077, so each atomic replacement has mode 0600 and app cannot read it. Changing only the current file is temporary. Set CREATE_MASK=0027 in /etc/default/report-publisher so future publications are group-readable (0640), then publish again or run verify. Preserve the setgid directory and reporter/app identities. Production follow-up: test the entire producer-consumer workflow with fresh outputs and least-privilege identities.
+3. **Internal traffic sent through a proxy.** The gateway inherits http_proxy but no_proxy omits inventory.internal. DNS and direct access work; gateway traffic goes to an unavailable proxy on 3128. Add the internal hostname to no_proxy in /etc/systemd/system/gateway.service, then `systemctl daemon-reload` and `systemctl restart gateway`. Production follow-up: maintain explicit internal proxy bypass policy and test from the workload’s environment.
+4. **Open-file limit too low.** The launcher sets 32 descriptors. Small requests succeed; batches fail with EMFILE. Inspect logs, `/proc/PID/limits` and start-processor. Set OPEN_FILES=256 in /etc/default/processor and restart it. Production follow-up: monitor utilization against process limits and run representative load tests; increasing a limit does not fix a leak.
+5. **Cron PATH mismatch.** The command is in /usr/local/bin, which is absent from cron’s PATH. Use `/usr/local/bin/export-report` in the cron entry. Wait for a real scheduled run. Production follow-up: use explicit execution environments and freshness alerts, not merely scheduler liveness.
+
+`fixes.json` contains executable reference commands. No instructor files are copied into the images. Because the learner has sudo, the lab is an exercise rather than a tamper-proof examination.

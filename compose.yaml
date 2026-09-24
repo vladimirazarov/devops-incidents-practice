@@ -1,0 +1,163 @@
+name: devops-practice
+services:
+  lab1:
+    build:
+      context: .
+      args:
+        SCENARIO: "1"
+    hostname: incident-1
+    ports:
+      - "127.0.0.1:2221:22"
+    volumes:
+      - ./.lab/id_ed25519.pub:/etc/lab/authorized_key.pub:ro,z
+    extra_hosts:
+      - "inventory.internal:127.0.0.1"
+    cgroup: private
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+    restart: unless-stopped
+    stop_signal: SIGRTMIN+3
+    stop_grace_period: 20s
+    mem_limit: 384m
+    cpus: 0.5
+    pids_limit: 256
+    networks:
+      - incident1
+    healthcheck:
+      test: ["CMD", "nc", "-z", "127.0.0.1", "22"]
+      interval: 5s
+      timeout: 2s
+      retries: 12
+  lab2:
+    build:
+      context: .
+      args:
+        SCENARIO: "2"
+    hostname: incident-2
+    ports:
+      - "127.0.0.1:2222:22"
+    volumes:
+      - ./.lab/id_ed25519.pub:/etc/lab/authorized_key.pub:ro,z
+    extra_hosts:
+      - "inventory.internal:127.0.0.1"
+    cgroup: private
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+    restart: unless-stopped
+    stop_signal: SIGRTMIN+3
+    stop_grace_period: 20s
+    mem_limit: 384m
+    cpus: 0.5
+    pids_limit: 256
+    networks:
+      - incident2
+    healthcheck:
+      test: ["CMD", "nc", "-z", "127.0.0.1", "22"]
+      interval: 5s
+      timeout: 2s
+      retries: 12
+  lab3:
+    build:
+      context: .
+      args:
+        SCENARIO: "3"
+    hostname: incident-3
+    ports:
+      - "127.0.0.1:2223:22"
+    volumes:
+      - ./.lab/id_ed25519.pub:/etc/lab/authorized_key.pub:ro,z
+    extra_hosts:
+      - "inventory.internal:127.0.0.1"
+    cgroup: private
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+    restart: unless-stopped
+    stop_signal: SIGRTMIN+3
+    stop_grace_period: 20s
+    mem_limit: 384m
+    cpus: 0.5
+    pids_limit: 256
+    networks:
+      - incident3
+    healthcheck:
+      test: ["CMD", "nc", "-z", "127.0.0.1", "22"]
+      interval: 5s
+      timeout: 2s
+      retries: 12
+  lab4:
+    build:
+      context: .
+      args:
+        SCENARIO: "4"
+    hostname: incident-4
+    ports:
+      - "127.0.0.1:2224:22"
+    volumes:
+      - ./.lab/id_ed25519.pub:/etc/lab/authorized_key.pub:ro,z
+    extra_hosts:
+      - "inventory.internal:127.0.0.1"
+    cgroup: private
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+    restart: unless-stopped
+    stop_signal: SIGRTMIN+3
+    stop_grace_period: 20s
+    mem_limit: 384m
+    cpus: 0.5
+    pids_limit: 256
+    networks:
+      - incident4
+    healthcheck:
+      test: ["CMD", "nc", "-z", "127.0.0.1", "22"]
+      interval: 5s
+      timeout: 2s
+      retries: 12
+  lab5:
+    build:
+      context: .
+      args:
+        SCENARIO: "5"
+    hostname: incident-5
+    ports:
+      - "127.0.0.1:2225:22"
+    volumes:
+      - ./.lab/id_ed25519.pub:/etc/lab/authorized_key.pub:ro,z
+    extra_hosts:
+      - "inventory.internal:127.0.0.1"
+    cgroup: private
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+    restart: unless-stopped
+    stop_signal: SIGRTMIN+3
+    stop_grace_period: 20s
+    mem_limit: 384m
+    cpus: 0.5
+    pids_limit: 256
+    networks:
+      - incident5
+    healthcheck:
+      test: ["CMD", "nc", "-z", "127.0.0.1", "22"]
+      interval: 5s
+      timeout: 2s
+      retries: 12
+networks:
+  incident1:
+    driver: bridge
+  incident2:
+    driver: bridge
+  incident3:
+    driver: bridge
+  incident4:
+    driver: bridge
+  incident5:
+    driver: bridge

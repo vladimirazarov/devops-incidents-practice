@@ -1,0 +1,10 @@
+{
+  "1": "sed -i 's/127.0.0.1:9001/127.0.0.1:9000/' /etc/nginx/nginx.conf && nginx -t && systemctl reload nginx",
+  "2": "sed -i 's/CREATE_MASK=0077/CREATE_MASK=0027/' /etc/default/report-publisher",
+  "3": "sed -i 's/no_proxy=localhost,127.0.0.1\"/no_proxy=localhost,127.0.0.1,inventory.internal\"/' /etc/systemd/system/gateway.service && systemctl daemon-reload && systemctl restart gateway",
+  "4": "sed -i 's/OPEN_FILES=32/OPEN_FILES=256/' /etc/default/processor && systemctl restart processor",
+  "5": "sed -i 's|reporter export-report|reporter /usr/local/bin/export-report|' /etc/cron.d/report-export",
+  "6": "sed -i 's/10.80.2.99/10.80.2.2/' /etc/service-discovery/records; systemctl restart service-discovery",
+  "7": "sed -i 's/tcp dport 80 /tcp dport 8080 /' /etc/site-firewall.nft; nft delete table inet site; systemctl restart site-firewall",
+  "8": "sed -i 's/release-a/release-b/g' /etc/nginx/nginx.conf; nginx -t && systemctl reload nginx"
+}

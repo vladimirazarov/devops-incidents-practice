@@ -1,0 +1,11 @@
+.git
+.codex
+.agents
+.lab
+instructor
+notes
+tests
+README.md
+STUDY.md
+**/__pycache__
+**/*.pyc

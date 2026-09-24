@@ -1,0 +1,29 @@
+{
+  "problems": [
+    [
+      "The front door is closed",
+      "Support says the internal echo endpoint stopped answering after routine maintenance. The application team reports their process is running.",
+      "GET http://127.0.0.1:8080/?token=YOUR_VALUE must return HTTP 200 and JSON with value equal to YOUR_VALUE through nginx."
+    ],
+    [
+      "The delivery desk \u2014 revision 2",
+      "The reporting desk says delivery succeeded, but customers cannot retrieve the current report. A previous attempt to restore access did not remain effective. Investigate the service and restore reliable delivery.",
+      "GET http://127.0.0.1:8080/ must return the latest report in the JSON value field, including after repeated deliveries using `sudo -u reporter /usr/local/bin/publish-report \"new report text\"`. Keep publication as reporter, serving as app, and reports private to those identities and report-readers. Keep atomic publication, and preserve the publisher command and endpoint."
+    ],
+    [
+      "Stock information unavailable",
+      "The gateway responds with failures when clients request inventory data. Inventory and gateway processes both appear to be running.",
+      "GET http://127.0.0.1:8080/?token=YOUR_VALUE must return HTTP 200 and JSON value YOUR_VALUE fetched from the inventory service. Preserve the configured inventory hostname."
+    ],
+    [
+      "Small requests look fine",
+      "A processing endpoint passes the routine health probe, but customer batches fail. Repeated retries have not helped.",
+      "GET http://127.0.0.1:8080/?batch=80&token=YOUR_VALUE must return HTTP 200 with JSON value YOUR_VALUE:80. Both small and large batches must work as the unprivileged app user."
+    ],
+    [
+      "Yesterday\u2019s numbers",
+      "The hourly dashboard is using an old export. An operator reports that generating the export manually succeeds. In this lab, the schedule runs every minute.",
+      "/srv/exports/current.json must automatically reflect the batch ID and sum of amounts from /srv/orders/current.json within 75 seconds. Keep the job running as reporter, retain atomic output replacement and restricted file access."
+    ]
+  ]
+}
